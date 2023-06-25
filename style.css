@@ -1,0 +1,557 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 62.5%;
+
+  /* Colors */
+  --color-primary: #730039;
+  --color-primary-m-light: hsla(330, 100%, 23%, 0.55);
+  --color-primary-m-dark: hsla(330, 100%, 23%, 0.85);
+
+  --color-secondary: #ffc513;
+  --color-secondary-m-light: hsla(45, 100%, 54%, 0.55);
+  --color-secondary-m-dark: rgba(255, 196, 19, 0.85);
+
+  --color-tertiary: #ff724c;
+  --color-tertiary-m-light: hsla(13, 100%, 65%, 0.55);
+  --color-tertiary-m-dark: rgba(255, 115, 76, 0.85);
+
+  --color-quaternary: #f6eedf;
+  --color-quaternary-m-light: hsla(39, 56%, 92%, 0.55);
+  --color-quaternary-m-dark: hsla(39, 56%, 92%, 0.85);
+}
+
+li {
+  list-style: none;
+  margin-bottom: 4rem;
+}
+
+i {
+  color: var(--color-secondary);
+  font-size: calc(2rem + 2vw);
+}
+
+p {
+  font-size: calc(1rem + 1vw);
+  font-weight: 300;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+  color: var(--color-quaternary);
+  font-size: calc(0.5rem + 1vw);
+  padding: 1rem 2rem;
+  border-radius: 0.3rem;
+  position: relative;
+  z-index: 1;
+  font-weight: 200;
+  cursor: pointer;
+}
+
+body {
+  font-family: Titillium, sans-serif;
+  line-height: 1.7;
+  background-color: var(--color-quaternary);
+}
+
+.container {
+  display: grid;
+  grid-template-columns:
+    [container-start] 1fr [center-start] repeat(10,
+      [col-start] minmax(min-content, 11rem) [col-end]) [center-end] 1fr [container-end];
+  grid-template-rows: 100vh repeat(8, min-content);
+}
+
+/* ***********************HEADER SECTION****************************** */
+header#header {
+  grid-column: container-start/container-end;
+  background: linear-gradient(var(--color-primary-m-light),
+      var(--color-primary-m-light)),
+    url("images/hero.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.header__main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 6;
+}
+
+.header__main-nav input[type="checkbox"] {
+  position: absolute;
+  top: 3rem;
+  left: 3rem;
+  width: 5rem;
+  height: 5rem;
+  padding: 1rem;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 3;
+}
+
+/* Creating the hamburger */
+.header__main-nav--hamburger {
+  position: absolute;
+  top: 3rem;
+  left: 3rem;
+  width: 5rem;
+  height: 5rem;
+  padding: 1rem;
+  cursor: pointer;
+  background-color: var(--color-secondary);
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  animation: hamburger 2s;
+}
+
+/* Transforming the Hamburger */
+@keyframes hamburger {
+  0% {
+    transform: translateX(150rem) rotate(1800deg);
+    opacity: 0;
+  }
+
+  50%{
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+
+/* making the hamburger lines */
+.header__main-nav--hamburger>div {
+  width: 100%;
+  height: 0.3rem;
+  background-color: var(--color-quaternary);
+  position: relative;
+
+  display: grid;
+  place-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+/* hamburger Top and Bottom Lines */
+.header__main-nav--hamburger>div::before,
+.header__main-nav--hamburger>div::after {
+  position: absolute;
+  content: "";
+  width: 60%;
+  height: inherit;
+  background-color: inherit;
+  top: -1rem;
+  z-index: 2;
+}
+
+.header__main-nav--hamburger>div::before {
+  top: 1rem;
+  right: 0;
+}
+
+.header__main-nav--hamburger>div::after {
+  left: 0;
+}
+
+/* Rotating the hambuger */
+.header__main-nav input[type="checkbox"]:checked+.header__main-nav--hamburger>div {
+  transform: rotate(135deg);
+}
+
+.header__main-nav input[type="checkbox"]:checked+.header__main-nav--hamburger>div::after {
+  opacity: 0;
+}
+
+.header__main-nav input[type="checkbox"]:checked+.header__main-nav--hamburger>div::before {
+  top: 0;
+  left: 0;
+  transform: rotate(270deg);
+  width: 100%;
+}
+
+.header__main-nav input[type="checkbox"]:checked:hover+.header__main-nav--hamburger>div {
+  transform: rotate(405deg);
+}
+
+
+/* list menu */
+.header__main-nav--menu {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  visibility: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__main-nav--menu>div {
+  background-color: var(--color-secondary-m-dark);
+  width: 200%;
+  height: 200%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scaleX(0);
+  transition: all 0.3s ease-in-out;
+}
+
+.header__main-nav--menu>div>div {
+  text-align: center;
+  max-width: 90vw;
+  max-height: 100vh;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.header__main-nav--menu ul li a:link,
+.header__main-nav--menu ul li a:visited {
+  z-index: 5;
+  font-size: calc(1.5rem + 0.5vw);
+  position: relative;
+}
+
+.header__main-nav--menu ul li a:link::before,
+.header__main-nav--menu ul li a:visited::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-primary);
+  z-index: -1;
+  left: 0;
+  top: 0;
+  transform: scaleY(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.header__main-nav--menu ul li a:hover::before,
+.header__main-nav--menu ul li a:active::before {
+  transform: scaleY(1);
+}
+
+/* Displaying the Menu when the checkbox is checked */
+.header__main-nav input[type="checkbox"]:checked~.header__main-nav--menu {
+  visibility: visible;
+}
+
+.header__main-nav input[type="checkbox"]:checked~.header__main-nav--menu>div {
+  transform: scaleX(1);
+}
+
+.header__main-nav input[type="checkbox"]:checked~.header__main-nav--menu>div>div {
+  opacity: 1;
+}
+
+/* Remaining  texts */
+.header__logo__content {
+  display: grid;
+  grid-template-columns: 1fr minmax(30rem, 1fr) 1fr;
+  grid-template-rows: min-content;
+  justify-items: center;
+  height: 90%;
+}
+
+.header__logo__content--logo {
+  grid-column: 2/3;
+  letter-spacing: 0.2rem;
+}
+
+.header__logo__content--logo span {
+  color: var(--color-tertiary);
+  font-size: 3rem;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.header__logo__content--content {
+  grid-column: 1/4;
+  align-self: center;
+}
+
+.header__logo__content--content-title {
+  color: white;
+  font-size: calc(4rem + 4vw);
+  padding: 0 2rem 0 calc(2rem + 2vw);
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.header__logo__content--content-text {
+  color: white;
+  font-size: calc(1rem + 2vw);
+  font-weight: 500;
+  padding: 2vh 2rem 6vh calc(2rem + 2vw);
+}
+
+.header__logo__content--content-link:link,
+.header__logo__content--content-link:visited {
+  border: 0.2rem solid var(--color-tertiary);
+  margin-left: calc(2rem + 2vw);
+}
+
+.header__logo__content--content-link:link::before,
+.header__logo__content--content-link:visited::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: var(--color-tertiary);
+  z-index: -1;
+  transform: scaleX(0);
+  transition: transform 0.45s cubic-bezier(1, 0, 0, 1);
+}
+
+.header__logo__content--content-link:hover::before,
+.header__logo__content--content-link:active::before {
+  transform: scaleX(1);
+}
+
+/* ******************BOOKING SECTION******************** */
+#booking-content {
+    grid-column: center-start / col-end 6;
+  
+    display: grid;
+    grid-template-rows: repeat(3, max-content);
+    grid-gap: 2vh;
+    padding: 8vh 3vw;
+  }
+  
+  .booking-content--title {
+    font-size: calc(2rem + 2vw);
+    font-weight: 300;
+    padding: 0 2rem 1rem;
+    position: relative;
+  }
+  
+  .booking-content--title::after {
+    position: absolute;
+    content: "";
+    width: 30%;
+    height: 0.2rem;
+    background-color: var(--color-secondary);
+    bottom: 0;
+    left: 15%;
+  }
+  
+  .booking-content--texts {
+    font-size: calc(1rem + 1vw);
+    padding: 2rem;
+    font-weight: 200;
+    color: var(--color-primary);
+  }
+  
+  .booking-content--icons {
+    margin-left: 2rem;
+    font-size: calc(1rem + 1vw);
+  
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .booking-content--icons-weather,
+  .booking-content--icons-time {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    grid-template-rows: 10vh;
+    justify-items: start;
+    align-items: center;
+    color: var(--color-primary);
+  }
+  
+  #booking-date {
+    grid-column: col-start 7 / center-end;
+    padding: 8vh 3vw;
+  
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+  }
+  
+  .booking-date--schedule {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 2vw;
+    place-items: center;
+  }
+  
+  .booking-date--schedule-arrival h5,
+  .booking-date--schedule-departure h5,
+  .booking-date--schedule-guests h5 {
+    font-size: calc(1rem + 1vw);
+    text-align: center;
+  }
+  
+  .booking-date--schedule-arrival>div,
+  .booking-date--schedule-departure>div,
+  .booking-date--schedule-guests>div {
+    background-color: var(--color-secondary);
+    padding: 2rem 4rem;
+  
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    place-items: center;
+    position: relative;
+    color: white;
+  
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; */
+  }
+  
+  .booking-date--schedule-arrival>div::before,
+  .booking-date--schedule-departure>div::before,
+  .booking-date--schedule-guests>div::before {
+    position: absolute;
+    content: "";
+    bottom: 100%;
+    left: 50%;
+    border-width: 1.5rem;
+    margin-left: -1.5rem;
+    border-style: solid;
+    border-color: transparent transparent var(--color-secondary) transparent;
+  
+  }
+  
+  .booking-date--schedule-arrival,
+  .booking-date--schedule-departure,
+  .booking-date--schedule-guests {
+    display: grid;
+    grid-row-gap: 3vh;
+  }
+  
+  .booking-date--schedule-arrival>div p:nth-of-type(2),
+  .booking-date--schedule-departure>div p:nth-of-type(2),
+  .booking-date--schedule-guests>div p:nth-of-type(2) {
+    font-size: 3rem;
+    font-weight: 700;
+  }
+  
+  .booking-date--schedule-reservation {
+    align-self: end;
+  }
+  
+  .booking-date--schedule-reservation a {
+    background-color: var(--color-secondary);
+  }
+  
+  .booking-date--schedule-reservation p {
+    font-size: calc(0.5rem + 1vw);
+    color: var(--color-primary);
+  }
+  
+  .booking-date--schedule-reservation p:first-of-type {
+    margin-top: 4rem;
+  }
+  
+  .booking-date--schedule-reservation a:hover,
+  .booking-date--schedule-reservation a:active {
+    background-color: white;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+    transition: all 0.3s ease-in-out;
+  }
+
+  #footer {
+    grid-column: container-start / container-end;
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 6vh 4vw;
+    color: #f6eedf;
+  }
+  
+  .link-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .links{
+    background-color: var(--color-secondary);
+    margin-right: 2rem;
+    height: 2rem;
+    width: 4rem;
+    border-radius: 5rem;
+    box-shadow: 0.5rem 0.5rem 2rem 0.5rem var(--color-secondary-m-light),
+    -0.5rem -0.5rem 2rem 0.5rem var(--color-secondary-m-light);
+  }
+
+ /* header section */
+@media screen and (max-width: 1000px) {
+
+    a:link,
+    a:visited {
+      font-size: calc(1rem + 1vw);
+    }
+  }
+  
+  @media screen and (max-width: 400px) {
+    .header__logo__content--content-text {
+      font-size: 2rem;
+    }
+  }
+  
+  /* booking section */
+  @media screen and (max-width: 800px) {
+   
+    #booking-content {
+      grid-column: center-start / center-end;
+      text-align: center;
+      padding: 4vh 3vw;
+    }
+  
+    #booking-date {
+      grid-column: center-start / center-end;
+      padding: 4vh 3vw;
+  
+      grid-row-gap: 7vh;
+    }
+  
+   
+    .booking-content--title::after {
+      width: 20%;
+      left: 40%;
+    }
+  
+    .booking-date--schedule-arrival>div,
+    .booking-date--schedule-departure>div,
+    .booking-date--schedule-guests>div {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: min-content;
+      grid-column-gap: 2vw;
+      padding: 2rem 1rem;
+    }
+  
+    .booking-date--schedule-reservation p {
+      font-size: 2rem;
+    }
+  
+    #footer{
+      display: grid;
+      grid-template-rows: repeat(2, 1fr);
+      grid-row-gap: 3rem;
+    }
+  } 
